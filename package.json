@@ -1,0 +1,19 @@
+{
+  "name": "forge-iot-extensions",
+  "version": "0.0.0",
+  "description": "Autodesk Forge viewer extensions for visualizing IoT data.",
+  "author": "Petr Broz <petr.broz@autodesk.com>",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "docs": "typedoc src/index.ts --out docs"
+  },
+  "devDependencies": {
+    "@types/chart.js": "^2.9.35",
+    "@types/forge-viewer": "^7.61.0",
+    "tslib": "^2.3.1",
+    "typedoc": "^0.22.13",
+    "typescript": "^4.6.2"
+  },
+  "license": "MIT"
+}
