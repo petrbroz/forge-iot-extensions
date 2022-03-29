@@ -1,6 +1,6 @@
 {
   "name": "forge-iot-extensions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Autodesk Forge viewer extensions for visualizing IoT data.",
   "author": "Petr Broz <petr.broz@autodesk.com>",
   "main": "dist/index.js",
