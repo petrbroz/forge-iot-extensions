@@ -53,8 +53,8 @@ export interface Samples {
  * sensor channels, and timerange.
  */
 export interface HistoricalDataView {
-    sensors: Readonly<Map<SensorID, Sensor>>;
-    channels: Readonly<Map<ChannelID, Channel>>;
+    getSensors(): Readonly<Map<SensorID, Sensor>>;
+    getChannels(): Readonly<Map<ChannelID, Channel>>;
     getSamples(sensorId: SensorID, channelId: ChannelID): Readonly<Samples> | undefined;
 }
 

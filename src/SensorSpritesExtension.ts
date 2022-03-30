@@ -72,7 +72,7 @@ export class SensorSpritesExtension extends UIBaseExtension {
         viewableData.spriteSize = 32;
         this._dbIdToSensorId.clear();
         let dbid = 1000000;
-        for (const [sensorId, sensor] of this.dataView.sensors.entries()) {
+        for (const [sensorId, sensor] of this.dataView.getSensors().entries()) {
             this._dbIdToSensorId.set(dbid, sensorId);
             const { x, y, z } = sensor.location;
             const style = this._style as Autodesk.DataVisualization.Core.ViewableStyle;

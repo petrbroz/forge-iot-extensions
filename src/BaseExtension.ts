@@ -32,14 +32,14 @@ export abstract class BaseExtension extends Autodesk.Viewing.Extension {
         if (!this._dataView) {
             return undefined;
         }
-        return this._dataView.sensors.keys().next().value;
+        return this._dataView.getSensors().keys().next().value;
     }
 
     protected getDefaultChannelID(): ChannelID | undefined {
         if (!this._dataView) {
             return undefined;
         }
-        return this._dataView.channels.keys().next().value;
+        return this._dataView.getChannels().keys().next().value;
     }
 
     get dataView(): HistoricalDataView | undefined {

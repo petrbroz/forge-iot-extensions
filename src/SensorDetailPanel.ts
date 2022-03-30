@@ -36,7 +36,7 @@ export class SensorDetailPanel extends Autodesk.Viewing.UI.DockingPanel {
         const chartHeight = 200;
         let contentHeight = 0;
         let canvases = [];
-        for (const [channelId, channel] of dataView.channels.entries()) {
+        for (const [channelId, channel] of dataView.getChannels().entries()) {
             contentHeight += chartHeight;
             const top: number = 50 + canvases.length * chartHeight;
             canvases.push(`<canvas id="sensor-detail-chart-${channelId}" style="position: absolute; left: 0; top: ${top}px; width: 100%; height: ${chartHeight}px;"></canvas>`);
@@ -44,7 +44,7 @@ export class SensorDetailPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.content.style.height = `${contentHeight}px`;
         this.container.style.height = `${contentHeight + 50}px`;
         this.content.innerHTML = canvases.join('\n');
-        for (const [channelId, channel] of dataView.channels.entries()) {
+        for (const [channelId, channel] of dataView.getChannels().entries()) {
             const canvas = document.getElementById(`sensor-detail-chart-${channelId}`) as HTMLCanvasElement;
             const samples = dataView.getSamples(sensorId, channelId);
             this._charts.push(this._createChart(canvas, samples?.timestamps || [], samples?.values || [], channel.min, channel.max, `${channel.name} (${channel.unit})`));
@@ -77,7 +77,7 @@ export class SensorDetailPanel extends Autodesk.Viewing.UI.DockingPanel {
     }
 
     updateCursor(sensorId: SensorID, dataView: HistoricalDataView, currentTime: Date) {
-        const defaultChannelID = dataView.channels.keys().next().value;
+        const defaultChannelID = dataView.getChannels().keys().next().value;
         if (!defaultChannelID) {
             return;
         }
