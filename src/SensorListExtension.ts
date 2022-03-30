@@ -26,7 +26,6 @@ export class SensorListExtension extends UIBaseExtension {
     async load(): Promise<boolean> {
         await super.load();
         await Promise.all([
-            // this.loadScript('https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js', 'moment'), // is this needed?
             this.loadScript('https://unpkg.com/tabulator-tables@5.1.7/dist/js/tabulator.min.js', 'Tabulator'),
             this.loadStylesheet('https://unpkg.com/tabulator-tables@5.1.7/dist/css/tabulator_midnight.min.css')
         ]);

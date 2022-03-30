@@ -39,6 +39,7 @@ export class SensorDetailExtension extends UIBaseExtension {
 
     async load() {
         await super.load();
+        await this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js', 'Chart');
         this.panel = new SensorDetailPanel(this.viewer, 'iot-sensor-detail', 'Sensor Details');
         console.log(`${SensorDetailExtensionID} extension loaded.`);
         return true;
