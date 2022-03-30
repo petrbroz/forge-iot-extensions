@@ -115,7 +115,7 @@ export class SensorHeatmapsExtension extends UIBaseExtension {
     }
 
     onToolbarCreated() {
-        this._createToolbarUI('iot-heatmaps-btn', 'IoT Heatmaps', 'https://img.icons8.com/ios-filled/50/000000/heat-map.png'); // <a href="https://icons8.com/icon/8315/heat-map">Heat Map icon by Icons8</a>
+        this.createToolbarButton('iot-heatmaps-btn', 'IoT Heatmaps', 'https://img.icons8.com/ios-filled/50/000000/heat-map.png'); // <a href="https://icons8.com/icon/8315/heat-map">Heat Map icon by Icons8</a>
     }
 
     async _setupSurfaceShading(model: Autodesk.Viewing.Model) {

@@ -5,7 +5,7 @@ import { SensorID, ChannelID, HistoricalDataView } from './HistoricalDataView.js
 /**
  * Base class for all Forge IoT extensions.
  *
- * Implements shared functionality such as toolbar UI initialization and handling of state changes.
+ * Implements shared functionality such as the handling of state changes.
  */
 export abstract class BaseExtension extends Autodesk.Viewing.Extension {
     protected _dataView?: HistoricalDataView;
@@ -138,6 +138,13 @@ export abstract class BaseExtension extends Autodesk.Viewing.Extension {
     }
 }
 
+const ToolbarGroupID = 'iot-toolbar';
+
+/**
+ * Base class for all Forge IoT extensions.
+ *
+ * Implements shared functionality such as the toolbar initialization.
+ */
 export abstract class UIBaseExtension extends BaseExtension {
     protected _group?: Autodesk.Viewing.UI.ControlGroup;
     protected _button?: Autodesk.Viewing.UI.Button;
@@ -150,7 +157,7 @@ export abstract class UIBaseExtension extends BaseExtension {
 
     unload(): boolean {
         super.unload();
-        this._removeToolbarUI();
+        this.removeToolbarButton();
         return true;
     }
 
@@ -168,10 +175,10 @@ export abstract class UIBaseExtension extends BaseExtension {
         return true;
     }
 
-    _createToolbarUI(buttonId: string, buttonTooltip: string, buttonIconUrl: string) {
-        this._group = this.viewer.toolbar.getControl('iot-toolbar') as Autodesk.Viewing.UI.ControlGroup;
+    protected createToolbarButton(buttonId: string, buttonTooltip: string, buttonIconUrl: string) {
+        this._group = this.viewer.toolbar.getControl(ToolbarGroupID) as Autodesk.Viewing.UI.ControlGroup;
         if (!this._group) {
-            this._group = new Autodesk.Viewing.UI.ControlGroup('iot-toolbar');
+            this._group = new Autodesk.Viewing.UI.ControlGroup(ToolbarGroupID);
             this.viewer.toolbar.addControl(this._group);
         }
         this._button = new Autodesk.Viewing.UI.Button(buttonId);
@@ -190,7 +197,7 @@ export abstract class UIBaseExtension extends BaseExtension {
         this._group.addControl(this._button);
     }
 
-    _removeToolbarUI() {
+    protected removeToolbarButton() {
         if (this._group && this._button) {
             this._group.removeControl(this._button);
             if (this._group.getNumberOfControls() === 0) {
