@@ -19,7 +19,7 @@ export class SensorDetailExtension extends UIBaseExtension {
 
     protected updateCharts() {
         if (this.dataView && this.currentSensorID && this.panel) {
-            const sensor = this.dataView.sensors.get(this.currentSensorID);
+            const sensor = this.dataView.getSensors().get(this.currentSensorID);
             if (sensor) {
                 this.panel.setTitle(sensor ? `Sensor: ${sensor.name}` : 'Sensor Details', {});
                 this.panel.updateCharts(this.currentSensorID, this.dataView);
@@ -30,7 +30,7 @@ export class SensorDetailExtension extends UIBaseExtension {
 
     protected updateCursor() {
         if (this.dataView && this.panel && this.currentSensorID && this.currentTime) {
-            const sensor = this.dataView.sensors.get(this.currentSensorID);
+            const sensor = this.dataView.getSensors().get(this.currentSensorID);
             if (sensor) {
                 this.panel.updateCursor(this.currentSensorID, this.dataView, this.currentTime);
             }
@@ -65,6 +65,6 @@ export class SensorDetailExtension extends UIBaseExtension {
     }
 
     onToolbarCreated() {
-        this._createToolbarUI('iot-sensor-detail-btn', 'IoT Sensor Detail', 'https://img.icons8.com/ios-filled/50/000000/show-property.png'); // <a href="https://icons8.com/icon/10255/show-property">Show Property icon by Icons8</a>
+        this.createToolbarButton('iot-sensor-detail-btn', 'IoT Sensor Detail', 'https://img.icons8.com/ios-filled/50/000000/show-property.png'); // <a href="https://icons8.com/icon/10255/show-property">Show Property icon by Icons8</a>
     }
 }

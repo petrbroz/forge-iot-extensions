@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 2022-03-30
+
+- Added `getTimerange` method to the `HistoricalDataView` interface
+- Added more code docs
+- Exported list of all extension IDs from `index.ts` for convenience
+
 ## [0.0.3] - 2022-03-29
 
 - Forcing another build and NPM publish.

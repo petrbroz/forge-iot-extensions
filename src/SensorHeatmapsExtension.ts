@@ -30,11 +30,11 @@ export class SensorHeatmapsExtension extends UIBaseExtension {
         if (!this.dataView || !this.currentTime || !this.currentChannelID) {
             return 0.0;
         }
-        const sensor = this.dataView.sensors.get(surfaceShadingPoint.id);
+        const sensor = this.dataView.getSensors().get(surfaceShadingPoint.id);
         if (!sensor) {
             return 0.0;
         }
-        const channel = this.dataView.channels.get(this.currentChannelID);
+        const channel = this.dataView.getChannels().get(this.currentChannelID);
         if (!channel) {
             return 0.0;
         }
@@ -115,7 +115,7 @@ export class SensorHeatmapsExtension extends UIBaseExtension {
     }
 
     onToolbarCreated() {
-        this._createToolbarUI('iot-heatmaps-btn', 'IoT Heatmaps', 'https://img.icons8.com/ios-filled/50/000000/heat-map.png'); // <a href="https://icons8.com/icon/8315/heat-map">Heat Map icon by Icons8</a>
+        this.createToolbarButton('iot-heatmaps-btn', 'IoT Heatmaps', 'https://img.icons8.com/ios-filled/50/000000/heat-map.png'); // <a href="https://icons8.com/icon/8315/heat-map">Heat Map icon by Icons8</a>
     }
 
     async _setupSurfaceShading(model: Autodesk.Viewing.Model) {
@@ -124,7 +124,7 @@ export class SensorHeatmapsExtension extends UIBaseExtension {
         }
         const shadingGroup = new Autodesk.DataVisualization.Core.SurfaceShadingGroup('iot-heatmap');
         const rooms = new Map();
-        for (const [sensorId, sensor] of this.dataView.sensors.entries()) {
+        for (const [sensorId, sensor] of this.dataView.getSensors().entries()) {
             if (!sensor.objectId) {
                 continue;
             }
@@ -134,7 +134,7 @@ export class SensorHeatmapsExtension extends UIBaseExtension {
                 rooms.set(sensor.objectId, room);
             }
             const room = rooms.get(sensor.objectId);
-            const types = Array.from(this.dataView.channels.keys());
+            const types = Array.from(this.dataView.getChannels().keys());
             room.addPoint(new Autodesk.DataVisualization.Core.SurfaceShadingPoint(sensorId, sensor.location, types));
         }
         this._surfaceShadingData = new Autodesk.DataVisualization.Core.SurfaceShadingData();

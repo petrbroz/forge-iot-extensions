@@ -19,7 +19,7 @@ export interface Sensor {
 }
 
 /**
- * IoT sensor channel.
+ * IoT sensor channel description.
  */
 export interface Channel {
     /** Sensor channel display name. */
@@ -37,27 +37,50 @@ export interface Channel {
 }
 
 /**
- * Collection of historical data of single sensors.
+ * Collection of historical data for specific sensor and channel.
  */
 export interface Samples {
     /** Number of data samples. */
     count: number;
-    /** Timestamps for individual data samples. */
+    /* Timestamps for individual data samples. */
     timestamps: Date[];
     /** Data sample values. */
     values: number[];
 }
 
 /**
- * Contains subset of historical IoT data for specific sensors,
- * sensor channels, and timerange.
+ * Subset of historical data for specific sensors, channels, and timerange.
  */
 export interface HistoricalDataView {
-    sensors: Readonly<Map<SensorID, Sensor>>;
-    channels: Readonly<Map<ChannelID, Channel>>;
+    /**
+     * Gets the map of sensors available in this data view, indexed by their IDs.
+     */
+    getSensors(): Readonly<Map<SensorID, Sensor>>;
+    /**
+     * Gets the map of channels available in this data view, indexed by their IDs.
+     */
+    getChannels(): Readonly<Map<ChannelID, Channel>>;
+    /**
+     * Gets the timerange captured by this data view.
+     */
+    getTimerange(): [Date, Date];
+    /**
+     * Gets the data samples for specific sensor and channel in this data view.
+     * @param sensorId Target sensor ID.
+     * @param channelId Target channel ID.
+     */
     getSamples(sensorId: SensorID, channelId: ChannelID): Readonly<Samples> | undefined;
 }
 
+/**
+ * Helper method for searching through list of timestamps for an entry
+ * that is closest to the provided target timestamp.
+ * @param list List of timestamps.
+ * @param timestamp Target timestamp to locate in the list.
+ * @param fractional If the target timestamp is "between" two timestamps in the list,
+ * return a corresponding fractional number instead of just an index.
+ * @returns Index of the closest timestamp in the list, or a fractional number.
+ */
 export function findNearestTimestampIndex(list: Date[], timestamp: Date, fractional: boolean = false): number {
     let start = 0;
     let end = list.length - 1;

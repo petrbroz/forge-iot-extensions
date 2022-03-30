@@ -45,7 +45,7 @@ export class SensorHeatmapsPanel extends Autodesk.Viewing.UI.DockingPanel {
             return;
         }
         this.dropdown.innerHTML = '';
-        for (const [channelId, channel] of dataView.channels.entries()) {
+        for (const [channelId, channel] of dataView.getChannels().entries()) {
             const option = document.createElement('option');
             option.value = channelId as string;
             option.innerText = channel.name;
@@ -59,7 +59,7 @@ export class SensorHeatmapsPanel extends Autodesk.Viewing.UI.DockingPanel {
         if (!this.dropdown) {
             return;
         }
-        const channel = dataView.channels.get(this.dropdown.value) as Channel;
+        const channel = dataView.getChannels().get(this.dropdown.value) as Channel;
         if (!channel) {
             return;
         }

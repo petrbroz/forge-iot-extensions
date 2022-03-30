@@ -4,8 +4,15 @@ import { SensorListExtension, SensorListExtensionID } from './SensorListExtensio
 import { SensorDetailExtension, SensorDetailExtensionID } from './SensorDetailExtension.js';
 import { SensorSpritesExtension, SensorSpritesExtensionID } from './SensorSpritesExtension.js';
 import { SensorHeatmapsExtension, SensorHeatmapsExtensionID } from './SensorHeatmapsExtension.js';
+
 export { HistoricalDataView, SensorID, Sensor, ChannelID, Channel } from './HistoricalDataView.js';
 export { SensorListExtension, SensorDetailExtension, SensorSpritesExtension, SensorHeatmapsExtension };
+export const AllExtensionIDs = [
+    SensorListExtensionID,
+    SensorDetailExtensionID,
+    SensorSpritesExtensionID,
+    SensorHeatmapsExtensionID
+];
 
 Autodesk.Viewing.theExtensionManager.registerExtension(SensorListExtensionID, SensorListExtension);
 Autodesk.Viewing.theExtensionManager.registerExtension(SensorDetailExtensionID, SensorDetailExtension);

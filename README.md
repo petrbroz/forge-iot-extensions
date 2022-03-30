@@ -31,25 +31,32 @@ class MyDataView {
         this._sensors.set('sensor2', { name: 'Living Room', description: '...', groupName: 'Level 1', location: { x: 31.92, y: 11.49, z: -12.97 }, objectId: 4124 });
         this._channels = new Map();
         this._channels.set('temp', { name: 'Temperature', description: 'External temperature in degrees Celsius.', type: 'double', unit: '°C', min: 18.0, max: 28.0 });
+        this._samples = new Map();
     }
 
-    get sensors() {
+    getSensors() {
         return this._sensors;
     }
 
-    get channels() {
+    getChannels() {
         return this._channels;
     }
 
+    getTimerange() {
+        return [new Date(2022, 0, 1, 8), new Date(2022, 0, 1, 39)];
+    }
+
     getSamples(sensorId, channelId) {
-        const count = 32;
-        const timestamps = [];
-        const values = [];
-        for (let i = 0; i < count; i++) {
-            timestamps.push(new Date(2022, 0, 1, 8 + i));
-            values.push(18.0 + Math.random() * 10);
+        const cacheKey = `${sensorId}:${channelId}`;
+        if (!this._samples.has(cacheKey)) {
+            const samples = { count: 32, timestamps: [], values: [] };
+            for (let i = 0; i < samples.count; i++) {
+                samples.timestamps.push(new Date(2022, 0, 1, 8 + i));
+                samples.values.push(18.0 + Math.random() * 10);
+            }
+            this._samples.set(cacheKey, samples);
         }
-        return { count, timestamps, values };
+        return this._samples.get(cacheKey);
     }
 }
 ```

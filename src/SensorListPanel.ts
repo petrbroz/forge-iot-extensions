@@ -49,19 +49,19 @@ export class SensorListPanel extends Autodesk.Viewing.UI.PropertyPanel {
                 { title: 'Sensor', field: 'sensor' },
                 { title: 'Group', field: 'group' }
             ];
-            for (const [channelId, channel] of dataView.channels.entries()) {
+            for (const [channelId, channel] of dataView.getChannels().entries()) {
                 columns.push({ title: channel.name, field: channelId });
             }
             this.table?.setColumns(columns);
         }
         const rows = [];
-        for (const [sensorId, sensor] of dataView.sensors.entries()) {
+        for (const [sensorId, sensor] of dataView.getSensors().entries()) {
             const row: { [key: string]: any } = {
                 id: sensorId,
                 sensor: sensor.name,
                 group: sensor.groupName
             };
-            for (const [channelId, channel] of dataView.channels.entries()) {
+            for (const [channelId, channel] of dataView.getChannels().entries()) {
                 const samples = dataView.getSamples(sensorId, channelId);
                 if (samples) {
                     const closestIndex = findNearestTimestampIndex(samples.timestamps, timestamp); // TODO: reuse this code from BaseExtension
