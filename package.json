@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "docs": "typedoc src/index.ts --out docs"
+    "docs": "typedoc src/index.ts --out docs --cleanOutputDir false"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.35",

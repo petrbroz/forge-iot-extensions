@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.css">
+    <style>
+        body, html { margin: 0; padding: 0; width: 100vw; height: 100vh; }
+        #preview { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+    </style>
+    <title>Autodesk Forge IoT Extensions: Example</title>
+</head>
+
+<body>
+    <div id="preview"></div>
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.js"></script>
+    <script type="module">
+        import 'https://unpkg.com/forge-iot-extensions@0.0.4/dist/index.js';
+
+        class MyDataView {
+            constructor() {
+                this._sensors = new Map();
+                this._sensors.set('sensor1', { name: 'Kitchen', description: '...', groupName: 'Level 1', location: { x: 10, y: 41.64, z: -12.15 }, objectId: 4111 });
+                this._sensors.set('sensor2', { name: 'Living Room', description: '...', groupName: 'Level 1', location: { x: 31.92, y: 11.49, z: -12.97 }, objectId: 4124 });
+                this._channels = new Map();
+                this._channels.set('temp', { name: 'Temperature', description: 'External temperature in degrees Celsius.', type: 'double', unit: '°C', min: 18.0, max: 28.0 });
+                this._samples = new Map();
+            }
+
+            getSensors() { return this._sensors; }
+            getChannels() { return this._channels; }
+            getTimerange() { return [new Date(2022, 0, 1, 8), new Date(2022, 0, 1, 39)]; }
+            getSamples(sensorId, channelId) {
+                const cacheKey = `${sensorId}:${channelId}`;
+                if (!this._samples.has(cacheKey)) {
+                    const samples = { count: 32, timestamps: [], values: [] };
+                    for (let i = 0; i < samples.count; i++) {
+                        samples.timestamps.push(new Date(2022, 0, 1, 8 + i));
+                        samples.values.push(18.0 + Math.random() * 10);
+                    }
+                    this._samples.set(cacheKey, samples);
+                }
+                return this._samples.get(cacheKey);
+            }
+        }
+
+        Autodesk.Viewing.Initializer({ env: 'Local' }, async function () {
+            const extensions = ['IoT.SensorList', 'IoT.SensorDetail', 'IoT.SensorSprites', 'IoT.SensorHeatmaps'];
+            const viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('preview'), { extensions });
+            viewer.start();
+            viewer.loadModel('https://petrbroz.s3.us-west-1.amazonaws.com/svf-samples/rac_basic_sample_project/svf/3d/output.svf');
+            viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, function () {
+                const myDataView = new MyDataView();
+                for (const extensionId of extensions) {
+                    const ext = viewer.getExtension(extensionId);
+                    ext.dataView = myDataView;
+                    ext.currentTime = new Date(2022, 0, 1, 12);
+                    ext.currentSensorID = 'sensor1';
+                    ext.currentChannelID = 'temp';
+                    ext.activate();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
