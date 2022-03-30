@@ -42,6 +42,10 @@ class MyDataView {
         return this._channels;
     }
 
+    getTimerange() {
+        return [new Date(2022, 0, 1, 8), new Date(2022, 0, 1, 39)];
+    }
+
     getSamples(sensorId, channelId) {
         const cacheKey = `${sensorId}:${channelId}`;
         if (!this._samples.has(cacheKey)) {
